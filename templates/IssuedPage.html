@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AdminIssue</title>
+	<link rel="stylesheet" type="text/css" href="../static/css/reset.css">
+	<link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/var25_css.css">
+    <script type="text/javascript" src="../static/js/admin_ajax.js"></script>
+</head>
+<body>
+	<div class="container leftPart">
+		<div class="row">
+			<div class="col-3">
+				<div class="userData">
+					<p class="login">ONLINE</p>
+					<p class="firm">{{ curent_user }}</p>
+                    <a href="/" name="logOut" class="logOut" >LogOut</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				<div style="margin-left: -30px;width: 270px;" class="userMenu">
+					<a id="acceptedApp" href="#">+ Show issued applications</a>
+					<a id="filledInApp" href="#">+ Show not isssued applications</a>
+					<a id="allApp" href="">+ Show all applications</a>
+                    <a style="margin-top: 270px; background-color: #19663f" href="/admin" >+ Back to applications</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 offset-3">
+
+				<div class="logo">
+                    <h1 style="color: #c7c7c7; display: inline-block; padding-top: 20px;padding-left: 30px;">Issue goods in warehouse control</h1>
+					<img class="img-responsive logoImg" src="../static/images/icon-warehousing-solutions.png"></img>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-10 offset-2">
+
+
+				<table style="margin-left: -70px; width: 1050px;" class="mainTable adminTable">
+					<thead class="mainMenu">
+						<th data-type="string">Type</th>
+						<th data-type="string">Sort</th>
+						<th data-type="string">Manufacture</th>
+                        <th data-type="number">Quantity</th>
+                        <th data-type="number">Date adoption</th>
+                        <th data-type="number">Date issue</th>
+                        <th data-type="number">Price</th>
+                        <th data-type="number">Issued</th>
+                        <th data-type="string">User</th>
+                        <th></th>
+
+					</thead>
+					<tbody class="mainList ">
+                    {% for product in admin_table %}
+                        <form name="AdminTable" method="post" action="/adminIssue" enctype="multipart/form-data">
+                        <tr>
+                            <td id="category">{{ product[4].name}}</td>
+							<td>{{ product[3].name }}</td>
+							<td>{{ product[2].name }}</td>
+                            <td>{{ product[0].quantity }}</td>
+                            <td>{{ product[0].date_adoption }}</td>
+                            <td>{{ product[0].date_issue }}</td>
+                            <td>{{ product[0].price }}</td>
+                            <td>{{ product[6].issued }}</td>
+                            <td>{{ product[5].login }}</td>
+                            <td><input name="but2" type="submit" id = "app_id" class="acceptButton" value="Give Away {{ product[0].id }}"></td>
+						</tr>
+                        </form>
+                    {% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+<!-- {#				<div class="mainList">#}
+{#					{% extends "base.html" %}#}
+{#					{% block content %}#}
+{#					<div><p>{{goods.category}}</p><p>{{goods.material}}</p><p>{{goods.fashion}}</p><p>{{goods.brand}}</p></div>#}
+{#					{% endfor %}#}
+{#					{% endblock %}#}
+{#				</div>#} -->
+
+
+	</div>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="../static/bootstrap/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="../static/js/main.js"></script>
+</body>
+</html>
