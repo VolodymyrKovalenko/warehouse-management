@@ -14,7 +14,6 @@ class LoginForm(Form):
     login = StringField('Login', [validators.Length(min=5, max=50)])
     password = PasswordField('Password', [validators.DataRequired()])
     #remember = BooleanField('remember me')
-fghbnj
 
 class RegisterForm(Form):
     login = StringField('Login', [validators.Length(min=5, max=50)])
