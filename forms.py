@@ -31,3 +31,8 @@ class ReceiptForm(Form):
     quantity = IntegerField('Quantity')
     date_adoption = DateField('Data adoption')
     date_issue = DateField('Data isuue')
+
+class NewTypeForm(Form):
+    type = StringField('Type',[validators.Length(min=2,max=50)])
+    sort = StringField('Sort', [validators.Length(min=2, max=50)])
+    price = IntegerField('Price')

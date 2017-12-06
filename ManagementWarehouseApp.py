@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt
 
-from forms import LoginForm, RegisterForm, ReceiptForm
+from forms import LoginForm, RegisterForm, ReceiptForm, NewTypeForm
 from management_warehouseDB import User, Application_receipt, Complect, Type, Sort, Manufacturer, Sklad
 
 app = Flask(__name__)
@@ -56,11 +56,8 @@ def main_page():
     conn = db.engine.connect()
 
     sesion_user_login = session['curent_user']  # counterpart for session
-    print(sesion_user_login)
     curent_id = User.query.filter(User.login == sesion_user_login).first()
-    print(curent_id)
     curent_id = curent_id.id
-    print(curent_id)
 
     join_table = db.session \
         .query(Application_receipt, Complect, Manufacturer, Sort, Type) \
@@ -93,13 +90,11 @@ def receipt_application():
     if request.method == 'POST' and form.validate():
 
         id_type = request.form['typ']
-        print(id_type)
         type_price = Type.query.filter_by(id=id_type).first().price
         name_sort = request.form['sort']
 
         manufacture_name = form.manufacturer.data
         if db.session.query(Manufacturer).filter_by(name=manufacture_name).scalar() == None:
-            print('work')
             brand_app = Manufacturer(manufacture_name)
             db.session.add(brand_app)
         db.session.commit()
@@ -205,6 +200,32 @@ def IssuedPage():
         return redirect(url_for('IssuedPage'))
 
     return render_template('IssuedPage.html', admin_table=join_table_admin)
+
+
+@app.route('/newType', methods=['GET', 'POST'])
+def TypePage():
+    form = NewTypeForm(request.form)
+    conn = db.engine.connect()
+    if request.method == 'POST' and form.validate():
+        type_name = form.type.data
+        type_price = form.price.data
+
+        if db.session.query(Type).filter_by(name= type_name).scalar() == None:
+
+            type_db = Type(type_name,type_price)
+            db.session.add(type_db)
+            db.session.commit()
+
+        sort_name = form.sort.data
+        if db.session.query(Sort).filter_by(name=sort_name).scalar() == None:
+
+            types_id = db.session.query(Type.id).filter_by(name=type_name)
+            sort_db = Sort(sort_name,types_id)
+            db.session.add(sort_db)
+            db.session.commit()
+        conn.close()
+        return redirect(url_for('AdminPage'))
+    return render_template('AddNewType.html')
 
 
 # @app.route('/handler1',methods=['POST'])
