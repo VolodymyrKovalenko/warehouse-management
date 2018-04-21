@@ -14,38 +14,33 @@
 </style>
 </head>
 <body>
-	<div class="container leftPart noPrint">
-		<div class="row">
-			<div class="col-3">
-				<div class="userData">
-					<p class="login">ONLINE</p>
-					<p class="firm">{{ curent_user }}</p>
-                    <a href="/" name="logOut" class="logOut" >LogOut</a>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-3">
-				<div class="userMenu">
-					<a href="/receipt">+ Add application</a>
-					<a id="acceptedApp" href="#">+ Show only accepted applications</a>
-					<a id="filledInApp" href="#">+ Show filled in applications</a>
-					<a id="allApp" href="">+ Show all applications</a>
-                    <a TYPE="button" onClick="window.print()" style="color:white">+ Print</a>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="container">
-		<div class="row noPrint">
-			<div class="col-md-9 offset-3">
+    <div class="row topPart">
+        <div class="col-1">
+            <div class="userData">
+                <p class="login">{{ curent_user }}</p>
+                <a href="/" name="logOut" class="logOut" >LogOut</a>
+            </div>
+        </div>
+        <div class="col-11">
+            <div class="userMenu">
+                <a href="/receipt" id="receiptButton">+ Add application</a>
+                <a id="acceptedApp" href="#">+ Show only accepted applications</a>
+                <a id="filledInApp" href="#">+ Show filled in applications</a>
+                <a id="allApp" href="">+ Show all applications</a>
+                <a TYPE="button" onClick="window.print()" id="printButton">+ Print</a>
+            </div>
+        </div>
+    </div>
+		<div class="row noPrint" style="padding-top: 130px;">
+			<div class="col-12">
 				<div class="logo">
-					<img class="img-responsive logoImg" src="../static/images/icon-warehousing-solutions.png"></img>
+					<h1>Green warehouse - keep you things well</h1>
 				</div>
 			</div>
 		</div>
 		<div class="row yesPrint">
-			<div class="col-10 offset-2">
+			<div class="col-12">
 				<table class="mainTable">
 					<thead class="mainMenu">
 						<th data-type="string">Type</th>
@@ -85,6 +80,7 @@
 
 			
 	</div>
+
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script src="../static/bootstrap/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

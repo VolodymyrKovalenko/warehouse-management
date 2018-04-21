@@ -17,17 +17,52 @@
 			<div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
 				<div class="signIn">
 					<div class="signHead">
-						<a class="goToSingIn" href="applicationForReceipt.html" style="width: 100%">Receipt</a>
+						<a class="goToSingIn" href="applicationForReceipt.html" style="width: 100%">Add new sort</a>
 					</div>
 
 					<form id="AddTypeForm" method="post" action="">
                         <input type="text" name="type" placeholder="Type" value="{{ request.form.type }}">
                         <input type="text" name="sort" placeholder="Sort" value="{{ request.form.sort }}">
-                        <input id="amount" type="number" name="price" placeholder="Price" value="{{request.form.price}}" min=0 >
+                        <input type="number" name="price" placeholder="Price" value="{{request.form.price}}" min=0 >
                         <p><input type="submit" class="btn btn-primary" value="Create new type"></p>
+                         <input type="button" id="showCategories" value="Show categories">
+                        <table id="categoryTable" hidden="true">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Fason</th>
+                                </tr>
+                            </thead>
+                            {% for categ in all_categ %}
+                            <tr>
+                                <td>{{ categ[0].name }}</td>
+                                <td>{{ categ[0].price }}</td>
+                                <td>{{ categ[1].name }}</td>
+                            </tr>
+                            {% endfor %}
+
+
+                        </table>
+                        <script>
+                            let categoryTable = document.getElementById('categoryTable');
+                            let prevCategory = categoryTable.tBodies[0].rows[0].cells[0].innerHTML;
+                            let i = 1;
+                            while(i != categoryTable.tBodies[0].rows.length){
+                                let currentCategory = categoryTable.tBodies[0].rows[i].cells[0].innerHTML;
+                                if(prevCategory == currentCategory){
+                                    categoryTable.tBodies[0].rows[i-1].cells[2].innerHTML += ", " + categoryTable.tBodies[0].rows[i].cells[2].innerHTML;
+                                    categoryTable.tBodies[0].rows[i].remove();
+                                } else{
+                                    i++;
+                                    prevCategory = currentCategory;
+                                }
+                            }
+                        </script>
 					</form>
                 </div>
             </div>
         </div>
     </div>
+<script type="text/javascript" src="../static/js/main.js"></script>
 </body>

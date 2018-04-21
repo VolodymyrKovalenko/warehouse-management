@@ -48,16 +48,13 @@ def login():
 @app.route('/')
 def start_page():
     session.clear()
-    return render_template('startPage.html')
+    return redirect(url_for('login'))
 
 
 @app.route('/main', methods=['GET', 'POST'])
 def main_page():
-    conn = db.engine.connect()
-
     sesion_user_login = session['curent_user']  # counterpart for session
-    curent_id = User.query.filter(User.login == sesion_user_login).first()
-    curent_id = curent_id.id
+    curent_id = db.session.query(User.id).filter(User.login == sesion_user_login)
 
     join_table = db.session \
         .query(Application_receipt, Complect, Manufacturer, Sort, Type) \
@@ -71,8 +68,6 @@ def main_page():
         .join(Type) \
         .filter(Sort.types_id == Type.id)
 
-    conn.close()
-
     return render_template('mainPage.html', curent_user=sesion_user_login
                            , second_table=join_table
                            )
@@ -83,7 +78,6 @@ def receipt_application():
     form = ReceiptForm(request.form)
     conn = db.engine.connect()
     session_user_login = session['curent_user']
-
     types_names = db.session.query(Type)
     sort_names = db.session.query(Sort)
 
@@ -112,17 +106,15 @@ def receipt_application():
         app_quantity = form.quantity.data
         app_date_adoption = form.date_adoption.data
         app_date_issue = form.date_issue.data
-        app_provider_id = User.query.filter_by(login=session_user_login).first().id
+        #app_provider_id = User.query.filter_by(login=session_user_login).first().id
+        app_provider_id = db.session.query(User.id).filter(User.login == session_user_login)
         app_price = app_quantity * type_price
         app_confirmed = False
-
-        # date_adoption = now().format('YYYY-MM-DD')
         receipt_app = Application_receipt(app_complect_id, app_quantity, app_date_adoption, app_date_issue,
                                           app_provider_id, app_price, app_confirmed)
         db.session.add(receipt_app)
         db.session.commit()
         conn.close()
-
         return redirect(url_for('main_page'))
 
     return render_template('applicationForReceipt.html', form=form, TypeHtml=types_names, sort_html=sort_names)
@@ -130,7 +122,6 @@ def receipt_application():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def AdminPage():
-    conn = db.engine.connect()
     join_table_admin = db.session \
         .query(Application_receipt, Complect, Manufacturer, Sort, Type, User) \
         .join(Complect) \
@@ -144,32 +135,25 @@ def AdminPage():
         .join(User) \
         .filter(Application_receipt.provider_id == User.id)
 
-    conn.close()
-
-    if request.method == 'POST':
-        conn = db.engine.connect()
-        app_id = request.form['but1']
-        app_id = app_id[7:]
-        # confirmed_button = Application_receipt(confirmed=True)
-        # print(confirmed_button)
-        db.session.query(Application_receipt).filter(Application_receipt.id == app_id). \
-            update({'confirmed': True})
-        db.session.commit()
-        sklad_application_id = app_id
-        sklad_issued = False
-        sklad_appl = Sklad(sklad_application_id, sklad_issued)
-        db.session.add(sklad_appl)
-        db.session.commit()
-        conn.close()
-
-        return redirect(url_for('AdminPage'))
-
     return render_template('adminPage.html', admin_table=join_table_admin)
+
+@app.route('/change_status/<string:id>',methods=['POST','GET'])
+def change_status(id):
+    app_id = id
+    db.session.query(Application_receipt).filter(Application_receipt.id == app_id). \
+        update({'confirmed': True})
+    db.session.commit()
+    sklad_application_id = app_id
+    sklad_issued = False
+    sklad_appl = Sklad(sklad_application_id, sklad_issued)
+    db.session.add(sklad_appl)
+    db.session.commit()
+
+    return redirect(url_for('AdminPage'))
 
 
 @app.route('/adminIssue', methods=['GET', 'POST'])
 def IssuedPage():
-    conn = db.engine.connect()
     join_table_admin = db.session \
         .query(Application_receipt, Complect, Manufacturer, Sort, Type, User, Sklad) \
         .join(Complect) \
@@ -186,52 +170,41 @@ def IssuedPage():
         .join(Sklad) \
         .filter(Application_receipt.id == Sklad.application_id)
 
-    conn.close()
-
-    if request.method == 'POST':
-        conn = db.engine.connect()
-        app_id = request.form['but2']
-        app_id = app_id[10:]
-        print(app_id)
-        db.session.query(Sklad).filter(Sklad.application_id == app_id). \
-            update({'issued': True})
-        db.session.commit()
-        conn.close()
-        return redirect(url_for('IssuedPage'))
-
     return render_template('IssuedPage.html', admin_table=join_table_admin)
 
+@app.route('/change_issue_status/<string:id>',methods=['POST','GET'])
+def change_issue_status(id):
+    db.session.query(Sklad).filter(Sklad.application_id == id). \
+        update({'issued': True})
+    db.session.commit()
+    return redirect(url_for('IssuedPage'))
 
 @app.route('/newType', methods=['GET', 'POST'])
 def TypePage():
     form = NewTypeForm(request.form)
     conn = db.engine.connect()
+    join_table = db.session.query(Type, Sort) \
+        .join(Sort) \
+        .filter(Type.id == Sort.types_id)
+
     if request.method == 'POST' and form.validate():
         type_name = form.type.data
         type_price = form.price.data
 
         if db.session.query(Type).filter_by(name= type_name).scalar() == None:
-
             type_db = Type(type_name,type_price)
             db.session.add(type_db)
             db.session.commit()
 
         sort_name = form.sort.data
         if db.session.query(Sort).filter_by(name=sort_name).scalar() == None:
-
             types_id = db.session.query(Type.id).filter_by(name=type_name)
             sort_db = Sort(sort_name,types_id)
             db.session.add(sort_db)
             db.session.commit()
         conn.close()
         return redirect(url_for('AdminPage'))
-    return render_template('AddNewType.html')
-
-
-# @app.route('/handler1',methods=['POST'])
-# def AjaxCategory():
-#     id_category = request.form['categor']
-#     return json.dumps({'status': 'OK','brand': id_category})
+    return render_template('AddNewType.html', all_categ = join_table)
 
 if __name__ == '__main__':
     app.secret_key = 'secret123'

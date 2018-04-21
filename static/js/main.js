@@ -5,7 +5,6 @@ if(input){
 	if(category.value != parseInt(category.value)) var priceForUnit = 1
 	else priceForUnit = category.value;
 
-	var priceForCategory = 12 + priceForUnit;
 
 	input.onfocus = function(){
 		let tooltip = document.createElement('div');
@@ -20,7 +19,7 @@ if(input){
 	input.oninput = function(){
 		let tooltip = document.querySelector('.tooltip1');
 		if(input.value > 0) {
-			tooltip.innerHTML = "Shoes - 13 UAH; Outerwere - 14 UAH; Pants - 15 UAH; per unit"; //мінять ціну тут
+			tooltip.innerHTML = "Building mat - 16 UAH; Decorating mat- 14 UAH; Paints - 12 UAH; per unit"; //мінять ціну тут
 		}
 		else {
 			tooltip.innerHTML = "Uncorrect value";
@@ -42,13 +41,13 @@ if(acceptedApp && filledInApp){
 
 	acceptedApp.onclick = function(){
 		for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
-			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'False')
+			if(mainTable.tBodies[0].rows[i].cells[7].innerHTML == 'False')
 				mainTable.tBodies[0].rows[i].hidden = true;
-			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'True')
+			if(mainTable.tBodies[0].rows[i].cells[7].innerHTML == 'True')
 				mainTable.tBodies[0].rows[i].hidden = false;
-			if(mainTable.tBodies[0].rows[i].cells[10]){
-				mainTable.tBodies[0].rows[i].cells[10].hidden = true;
-				mainTable.tHead.rows[0].cells[10].hidden = true;
+			if(mainTable.tBodies[0].rows[i].cells[9]){
+				mainTable.tBodies[0].rows[i].cells[9].hidden = true;
+				mainTable.tHead.rows[0].cells[9].hidden = true;
 			}
 
 		}
@@ -56,13 +55,13 @@ if(acceptedApp && filledInApp){
 
 	filledInApp.onclick = function(){
 		for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
-			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'False')
+			if(mainTable.tBodies[0].rows[i].cells[7].innerHTML == 'False')
 				mainTable.tBodies[0].rows[i].hidden = false;
-			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'True')
+			if(mainTable.tBodies[0].rows[i].cells[7].innerHTML == 'True')
 				mainTable.tBodies[0].rows[i].hidden = true;
-			if(mainTable.tBodies[0].rows[i].cells[10]){
-				mainTable.tBodies[0].rows[i].cells[10].hidden = true;
-				mainTable.tHead.rows[0].cells[10].hidden = true;
+			if(mainTable.tBodies[0].rows[i].cells[9]){
+				mainTable.tBodies[0].rows[i].cells[9].hidden = true;
+				mainTable.tHead.rows[0].cells[9].hidden = true;
 			}
 		}
 	}
@@ -104,4 +103,14 @@ mainTable.onclick = function(event){
 			mainTable.getElementsByTagName('tbody')[0].append(rowArray[i]);
 		}
 	}
+}
+
+let showCategories = document.getElementById('showCategories');
+if(showCategories){
+	console.log(1);
+	let categoryTable = document.getElementById('categoryTable');
+	showCategories.onclick = function () {
+		categoryTable.hidden = !categoryTable.hidden;
+    }
+
 }

@@ -1,6 +1,11 @@
 body{
-	background-color: rgb(246,246,246);
-	background-image: url("../images/Start_img.png")
+	background-color: #e3f4bb;
+	background: url("../images/1335171022.jpg");
+	background-attachment: fixed;
+}
+.container{
+	width: 100%;
+	max-width: 1340px
 }
 
 /*Resgistration,sign-in page*/
@@ -9,7 +14,7 @@ body{
 .signIn{
 	background-color: white;
 	border: 1px solid rgb(205,205,205);
-	margin: 30% auto;
+	margin: 20% auto;
 	padding: 0;
 	width: 100%;
 	max-width: 450px;
@@ -44,7 +49,7 @@ body{
 }
 .goToSingIn:hover, .goToRegistration:hover{
 	text-decoration: none;
-	color: rgb(0,83,160);
+	color: #5e7b1a;
 }
 .goToSingIn:hover:not(.offFocus), .goToRegistration:hover:not(.offFocus){
 	color: initial;
@@ -55,7 +60,7 @@ body{
 	float: left;
 	border-top: none;
 	border-left: none;
-	color: rgb(0,83,160);
+	color: #5e7b1a;
 }
 .goToSingIn + .offFocus{
 	float: right;
@@ -68,22 +73,22 @@ body{
 	margin-right: 20px;
 }
 .signIn input[type="submit"]{
-	background: -webkit-gradient(linear, left bottom, left top, from(rgb(0,83,160)), to(rgb(0,119,187))) ;
-	background: linear-gradient(to top, rgb(0,83,160), rgb(0,119,187)) ;
+	background: -webkit-gradient(linear, left bottom, left top, from(#5e7b1a),to(#87ae26)) ;
+	background: linear-gradient(to top, #5e7b1a, #87ae26) ;
 	color: white;
 	font-weight: bold;
 	font-size: 1.2em;
-	border: 1px solid rgb(0,83,160);
+	border: 1px solid rgb(25, 102, 63);
 	margin-top: 25px;
 }
 .signIn input[type="submit"]:hover{
-	background: rgb(0,83,160);
+	background: #5e7b1a;
 }
 
 /*Main page*/
-/*.login{*/
-	/*color: #00cd00;*/
-/*}*/
+.login{
+	color: #d9d9d9;
+}
 .main_caption{
 	text-align: center;
 	padding-top:30px;
@@ -91,10 +96,14 @@ body{
 	color: white;
 }
 
-.leftPart{
-	margin: 0 auto;
-	padding: 0;
+.topPart{
+	width: 100%;
 	position: fixed;
+	z-index: 99;
+	background: url("../images/1335171022.jpg");
+}
+.mainPart{
+	padding-top: 85px;
 }
 .logOut{
 	display: block;
@@ -112,34 +121,47 @@ body{
 	text-align: center;
 	font-weight: bold;
 	font-size: 1.2;
-	color: rgb(228, 229, 251);
+
 	height: 10%;
 	margin: 15%;
 }
-.userMenu{	
-	margin: 0 auto;
+.userMenu{
+	margin: 15px auto;
 	padding: 0;
+	text-align: center;
 }
 .userMenu a{
-	display: block;
+	display: inline-block;
 	border-radius: 5px;
 	padding: 5px;
-	margin: 0 auto;
-	margin-top: 10px;
-	background-color: rgb(0, 117, 211);
-
-	border: 1px solid #f2ecf4;
+	margin: 0 15px;
+	background-color: #5e7b1a;
+	border: 1px solid #1b1b1c;
 	color: rgb(255, 255, 255);
 	max-width: 200px;
 }
-.userMenu a:hover{
+#receiptButton{
+	background-color: #bcbe3f;
+}
+#printButton{
+	color:white;
+	background-color: #00d000;
+	cursor: pointer;
+}
+#addSort{
+	background-color: #00d000;
+}
+#IssueButton{
+	background-color: #bcbe3f;
+}
+.userMenu a:hover, #printButton:hover, #receiptButton:hover, #addSort:hover, #IssueButton:hover{
 	text-decoration: none;
-	background-color:  gray;
+	background-color: #21953c;
 }
 .mainTable{
-	width: 110%;
+	width: 100%;
 	text-align: center;
-	border: 1px solid rgb(123, 251, 69);
+	/*border: 1px solid rgb(123, 251, 69);*/
 	border-collapse: collapse;
 	color: #ffffff;
 	table-layout: fixed;
@@ -152,19 +174,21 @@ body{
 	color: rgb(238, 234, 255);
 	font-weight: bold;
 	vertical-align: middle;
-	border: 1px solid rgb(242, 236, 244);
-	background-color: rgb(0, 91, 171);
+	border: 1px solid rgb(254, 254, 255);
+	background-color: #87ae26;
 }
 .mainList tr:hover{
-	background-color: #6b6b6b;
+	background-color: #21953c;
 }
 .mainList td{
 	padding: 7px 1px;
-	border: 1px solid rgb(218, 234, 236);
+	border: 1px solid rgb(245, 249, 255);
 	vertical-align: middle;
 }
 .logo{
-	float: right;
+	display: block;
+	color: #e2e2e2;
+	text-align: center;
 	width: 100%;
 	padding: 0;
 	margin: 0;
@@ -235,15 +259,15 @@ body{
 	display: inline-block;
 	border-radius: 5px;
 	padding: 5px;
-	background-color: rgb(0, 117, 211);
-	border: 1px solid #f2ecf4;
+	background-color: #5e7b1a;
+	border: 1px solid #1b1b1c;
 	color: rgb(255, 255, 255);
 	max-width: 200px;
 	margin-left: 10px;
 }
 .acceptButton:hover{
 	cursor: pointer;
-	background-color: rgb(0, 74, 141);
+	background-color: #00d000;
 }
 
 .adminTable td:last-child,.adminTable th:last-child{
@@ -254,5 +278,31 @@ body{
 	border: hidden;
 	background:none;
 	border-left: 1px solid rgb(218, 234, 236);
+}
+
+
+#categoryTable{
+	width: 90%;
+	text-align: center;
+	border-collapse: collapse;
+	color: rgb(0, 131, 47);
+	table-layout: fixed;
+	margin: 0 auto;
+}
+#categoryTable th{
+	padding: 7px 1px;
+	color: rgb(0, 131, 47);
+	font-weight: bold;
+	vertical-align: middle;
+	border: 1px solid rgb(0, 131, 47);
+	background-color: rgb(242, 236, 244);
+}
+#categoryTable tr:hover{
+	background-color: #65f381;
+}
+#categoryTable td{
+	padding: 7px 1px;
+	border: 1px solid rgb(0, 131, 47);
+	vertical-align: middle;
 }
 

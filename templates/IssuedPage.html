@@ -10,42 +10,34 @@
     <script type="text/javascript" src="../static/js/admin_ajax.js"></script>
 </head>
 <body>
-	<div class="container leftPart">
-		<div class="row">
-			<div class="col-3">
-				<div class="userData">
-					<p class="login">ONLINE</p>
-					<p class="firm">{{ curent_user }}</p>
-                    <a href="/" name="logOut" class="logOut" >LogOut</a>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-3">
-				<div style="margin-left: -30px;width: 270px;" class="userMenu">
-					<a id="acceptedApp" href="#">+ Show issued applications</a>
-					<a id="filledInApp" href="#">+ Show not isssued applications</a>
-					<a id="allApp" href="">+ Show all applications</a>
-                    <a style="margin-top: 270px; background-color: #19663f" href="/admin" >+ Back to applications</a>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="container">
-		<div class="row">
-			<div class="col-md-9 offset-3">
-
+        <div class="row topPart">
+            <div class="col-1">
+                <div class="userData">
+                    <p class="login">ADMIN</p>
+                    <a href="/" name="logOut" class="logOut" >LogOut</a>
+                </div>
+            </div>
+            <div class="col-11">
+                <div class="userMenu">
+                    <a id="acceptedApp" href="#">+ Show issued applications</a>
+                    <a id="filledInApp" href="#">+ Show not isssued applications</a>
+                    <a id="allApp" href="">+ Show all applications</a>
+                    <a  href="/admin" >+ Back to applications</a>
+                </div>
+            </div>
+        </div>
+		<div class="row" style="padding-top: 90px;">
+			<div class="col-12">
 				<div class="logo">
-                    <h1 style="color: #c7c7c7; display: inline-block; padding-top: 20px;padding-left: 30px;">Issue goods in warehouse control</h1>
-					<img class="img-responsive logoImg" src="../static/images/icon-warehousing-solutions.png"></img>
+					<h1>ADMIN PAGE</h1>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-10 offset-2">
+			<div class="col-12">
 
-
-				<table style="margin-left: -70px; width: 1050px;" class="mainTable adminTable">
+				<table class="mainTable adminTable">
 					<thead class="mainMenu">
 						<th data-type="string">Type</th>
 						<th data-type="string">Sort</th>
@@ -70,9 +62,17 @@
                             <td>{{ product[0].date_adoption }}</td>
                             <td>{{ product[0].date_issue }}</td>
                             <td>{{ product[0].price }}</td>
-                            <td>{{ product[6].issued }}</td>
+                            {% if product[6].issued == True %}
+                                <td>Issued</td>
+                            {% else %}
+                                <td>Unissued</td>
+                            {% endif %}
                             <td>{{ product[5].login }}</td>
-                            <td><input name="but2" type="submit" id = "app_id" class="acceptButton" value="Give Away {{ product[0].id }}"></td>
+                            {% if product[6].issued == False %}
+                                <td><a id = "app_id" class="acceptButton" href="change_issue_status/{{ product[0].id }}">Give Away</a></td>
+                            {% else %}
+                            <td style="padding-left: 15px;">Already {{ product[0].id }}</td>
+                            {% endif %}
 						</tr>
                         </form>
                     {% endfor %}
